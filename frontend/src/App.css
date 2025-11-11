@@ -1,38 +1,183 @@
 .App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
   min-height: 100vh;
+  background-color: #fafafa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 20px;
+}
+
+.container {
+  text-align: center;
+  padding: 48px;
+  width: 100%;
+  max-width: 900px;
+  background-color: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.title {
+  font-size: 4rem;
+  font-weight: bold;
+  color: #1a1a1a;
+  margin-bottom: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.tagline {
+  font-size: 1.5rem;
+  color: #666666;
+  font-weight: 400;
+  margin-bottom: 3rem;
+}
+
+.map-container {
+  margin: 3rem 0;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.coordinates {
+  font-size: 0.875rem;
+  color: #888888;
+  margin-top: 1.25rem;
+  padding: 12px 20px;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  display: inline-block;
+  font-family: 'Courier New', monospace;
+}
+
+.date-picker-container {
+  margin-top: 3rem;
+  padding: 24px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  gap: 1rem;
+  background-color: #f8f8f8;
+  border-radius: 16px;
 }
 
-.App-link {
-  color: #61dafb;
+.date-label {
+  font-size: 1.125rem;
+  color: #666666;
+  font-weight: 500;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.date-input {
+  padding: 12px 20px;
+  font-size: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 12px;
+  background-color: #ffffff;
+  color: #1a1a1a;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+}
+
+.date-input:hover {
+  border-color: #b0b0b0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+.date-input:focus {
+  outline: none;
+  border-color: #666666;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+
+.selected-date {
+  font-size: 0.875rem;
+  color: #888888;
+  margin-top: 1rem;
+  padding: 12px 20px;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  display: inline-block;
+  font-family: 'Courier New', monospace;
+}
+
+.predict-button {
+  margin-top: 3rem;
+  padding: 16px 48px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #ffffff;
+  background-color: #1a1a1a;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+}
+
+.predict-button:hover:not(:disabled) {
+  background-color: #333333;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+.predict-button:active:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.predict-button:disabled {
+  background-color: #e0e0e0;
+  color: #999999;
+  cursor: not-allowed;
+  opacity: 0.6;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .container {
+    padding: 32px 24px;
+    border-radius: 16px;
   }
-  to {
-    transform: rotate(360deg);
+
+  .title {
+    font-size: 2.5rem;
+  }
+
+  .tagline {
+    font-size: 1.25rem;
+  }
+
+  .predict-button {
+    padding: 14px 36px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 24px 20px;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .tagline {
+    font-size: 1rem;
+  }
+
+  .predict-button {
+    width: 100%;
+    max-width: 280px;
   }
 }
