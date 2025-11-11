@@ -5,6 +5,7 @@ import MapComponent from './MapComponent';
 function App() {
   const [position, setPosition] = useState(null);
   const [selectedDate, setSelectedDate] = useState('');
+  const [cityName, setCityName] = useState('');
 
   const handleLocationClick = (latlng) => {
     setPosition(latlng);
@@ -12,6 +13,37 @@ function App() {
 
   const handleDateChange = (e) => {
     setSelectedDate(e.target.value);
+  };
+
+  const handleCityChange = (e) => {
+    setCityName(e.target.value);
+  };
+
+  const handleCitySearch = async () => {
+    if (!cityName.trim()) return;
+
+    try {
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(cityName)}&limit=1`
+      );
+      const data = await response.json();
+
+      if (data && data.length > 0) {
+        const { lat, lon } = data[0];
+        setPosition({ lat: parseFloat(lat), lng: parseFloat(lon) });
+      } else {
+        alert('City not found. Please try a different name.');
+      }
+    } catch (error) {
+      console.error('Geocoding error:', error);
+      alert('Failed to search for city. Please try again.');
+    }
+  };
+
+  const handleCityKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleCitySearch();
+    }
   };
 
   const handlePredictFuture = () => {
@@ -29,6 +61,26 @@ function App() {
       <div className="container">
         <h1 className="title">Cool Cucumbers</h1>
         <p className="tagline">Find out the future of your house.</p>
+
+        <div className="city-input-container">
+          <label htmlFor="city-input" className="city-label">
+            Enter city name:
+          </label>
+          <div className="city-input-wrapper">
+            <input
+              id="city-input"
+              type="text"
+              value={cityName}
+              onChange={handleCityChange}
+              onKeyPress={handleCityKeyPress}
+              placeholder="e.g., San Francisco"
+              className="city-input"
+            />
+            <button onClick={handleCitySearch} className="search-button">
+              Search
+            </button>
+          </div>
+        </div>
 
         <div className="map-container">
           <MapComponent position={position} onLocationClick={handleLocationClick} />

@@ -1,4 +1,5 @@
-import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, useMapEvents, useMap } from 'react-leaflet';
+import { useEffect } from 'react';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 
@@ -20,6 +21,20 @@ function LocationMarker({ position, onLocationClick }) {
   return position ? <Marker position={position} /> : null;
 }
 
+function MapUpdater({ position }) {
+  const map = useMap();
+
+  useEffect(() => {
+    if (position) {
+      map.flyTo([position.lat, position.lng], 13, {
+        duration: 1.5
+      });
+    }
+  }, [position, map]);
+
+  return null;
+}
+
 function MapComponent({ position, onLocationClick }) {
   return (
     <MapContainer
@@ -32,6 +47,7 @@ function MapComponent({ position, onLocationClick }) {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
       />
       <LocationMarker position={position} onLocationClick={onLocationClick} />
+      <MapUpdater position={position} />
     </MapContainer>
   );
 }
