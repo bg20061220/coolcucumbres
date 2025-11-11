@@ -55,7 +55,7 @@ function Home() {
     if (position && selectedDate) {
       setLoading(true);
       try {
-        const response = await axios.post('http://localhost:5000/predict', {
+        const response = await axios.post("https://coolcucumbres.onrender.com/predict", {
           latitude: position.lat,
           longitude: position.lng,
           date: selectedDate
