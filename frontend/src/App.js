@@ -1,11 +1,16 @@
 import { useState } from 'react';
+import { Routes, Route, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import './App.css';
 import MapComponent from './MapComponent';
+import Results from './Results';
 
-function App() {
+function Home() {
+  const navigate = useNavigate();
   const [position, setPosition] = useState(null);
   const [selectedDate, setSelectedDate] = useState('');
   const [cityName, setCityName] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleLocationClick = (latlng) => {
     setPosition(latlng);
@@ -46,15 +51,28 @@ function App() {
     }
   };
 
-  const handlePredictFuture = () => {
+  const handlePredictFuture = async () => {
     if (position && selectedDate) {
-      console.log('Latitude:', position.lat);
-      console.log('Longitude:', position.lng);
-      console.log('Date:', selectedDate);
+      setLoading(true);
+      try {
+        const response = await axios.post('http://localhost:5000/predict', {
+          latitude: position.lat,
+          longitude: position.lng,
+          date: selectedDate
+        });
+
+        // Navigate to results page with prediction data
+        navigate('/results', { state: { prediction: response.data } });
+      } catch (error) {
+        console.error('Prediction error:', error);
+        alert('Failed to get prediction. Please make sure the backend is running and try again.');
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
-  const isButtonDisabled = !position || !selectedDate;
+  const isButtonDisabled = !position || !selectedDate || loading;
 
   return (
     <div className="App">
@@ -120,10 +138,19 @@ function App() {
           disabled={isButtonDisabled}
           className="predict-button"
         >
-          Predict Future
+          {loading ? 'Predicting...' : 'Predict Future'}
         </button>
       </div>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/results" element={<Results />} />
+    </Routes>
   );
 }
 
