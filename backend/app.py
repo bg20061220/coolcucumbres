@@ -6,6 +6,12 @@ from datetime import datetime
 app = Flask(__name__)
 CORS(app)  # Enable CORS for all routes
 
+
+@app.route('/')
+def home():
+    return jsonify({"message": "Backend is running successfully!"})
+
+
 @app.route('/predict', methods=['POST'])
 def predict():
     try:
