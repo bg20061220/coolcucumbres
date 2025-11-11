@@ -21,21 +21,14 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_
 model = make_pipeline(StandardScaler(), RandomForestClassifier(n_estimators=300, random_state=42))
 model.fit(X_train, y_train)
 
-# --- 🔹 User input for new location ---
-latitude = float(input("Enter latitude: "))
-longitude = float(input("Enter longitude: "))
-year = int(input("Enter year: "))
 
-new_location = pd.DataFrame([[latitude, longitude, year]],
-                            columns=['latitude', 'longitude', 'year'])
+def predict_floods ( lat , long , year ) :
+    new_location = pd.DataFrame([[lat , long ,year  ]], columns=['latitude', 'longitude', 'year'])
 
-confidence_score = model.predict_proba(new_location)[0][1]
+    confidence_score = model.predict_proba(new_location)[0][1] 
+    predicted_label = int ( confidence_score >= 0.5) 
+    results = [ f"Predicted flood confidence: {confidence_score:.2f}",  "⚠️ Flood" if predicted_label else "✅ No Flood"  ]
+    return results 
 
-# Predict probability (confidence score)
-confidence_score = model.predict_proba(new_location)[0][1]
-predicted_label = int(confidence_score >= 0.5)
 
-print(f"\n📍 Location: ({latitude}, {longitude}) in {year}")
-print(f"Predicted flood confidence: {confidence_score:.2f}")
-print("Predicted label:", "⚠️ Flood" if predicted_label else "✅ No Flood")
-
+print ( predict_floods ( 40.636908 , 14.607541 , 2042))
