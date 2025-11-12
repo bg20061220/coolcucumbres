@@ -73,6 +73,7 @@ function Home() {
   };
 
   const isButtonDisabled = !position || !selectedDate || loading;
+  
 
   return (
     <div className="App">
